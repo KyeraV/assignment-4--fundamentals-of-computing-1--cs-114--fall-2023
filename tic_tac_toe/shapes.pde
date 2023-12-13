@@ -1,9 +1,9 @@
-void drawCircle(float x, float y, float diameter) {
-  ellipse(x, y, diameter, diameter);
+// shapes.pde
+void drawX(float x, float y) {
+  line(x, y, x + CELL_SIZE, y + CELL_SIZE);
+  line(x, y + CELL_SIZE, x + CELL_SIZE, y);
 }
 
-void drawX(float x, float y, float size) {
-  float offset = size * 0.4;
-  line(x - offset, y - offset, x + offset, y + offset);
-  line(x - offset, y + offset, x + offset, y - offset);
+void drawO(float x, float y) {
+  ellipse(x + CELL_SIZE / 2, y + CELL_SIZE / 2, CELL_SIZE * 0.8, CELL_SIZE * 0.8);
 }
