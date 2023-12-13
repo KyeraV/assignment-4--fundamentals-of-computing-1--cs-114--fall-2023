@@ -1,4 +1,3 @@
-// shapes.pde
 void drawX(float x, float y) {
   line(x, y, x + CELL_SIZE, y + CELL_SIZE);
   line(x, y + CELL_SIZE, x + CELL_SIZE, y);

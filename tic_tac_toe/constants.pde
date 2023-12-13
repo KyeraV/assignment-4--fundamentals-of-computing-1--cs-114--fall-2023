@@ -1,4 +1,3 @@
-// constants.pde
 final int EMPTY = 0;
 final int PLAYER_X = 1;
 final int PLAYER_O = 2;
