@@ -135,6 +135,6 @@ boolean isBoardFull(int[][] board) {
       }
     }
   }
-  print("It's a draw! No one wins.\n");
+  print(NO_ONE_WON_MESSAGE + " " + GAME_OVER_MESSAGE + "\n");
   return true;
 }

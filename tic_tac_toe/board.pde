@@ -3,11 +3,11 @@ void drawBoard() {
   float cellHeight = height / 3;
 
   // Draw the Tic Tac Toe grid
-  for (int i = 1; i < 3; i++) {
+  for (int lineIndex = 1; lineIndex < BOARD_SIZE; lineIndex++) {
     // Draw horizontal lines
-    line(0, i * cellHeight, width, i * cellHeight);
+    line(0, lineIndex * CELL_SIZE, width, lineIndex * CELL_SIZE);
     // Draw vertical lines
-    line(i * cellWidth, 0, i * cellWidth, height);
+    line(lineIndex * CELL_SIZE, 0, lineIndex * CELL_SIZE, height);
   }
 
   // Draw X and O based on the current state of the game board
