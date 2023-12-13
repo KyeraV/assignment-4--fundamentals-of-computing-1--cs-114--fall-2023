@@ -1,17 +1,11 @@
 int[][] board = new int[BOARD_SIZE][BOARD_SIZE];
-boolean gameInProgress = false;
 
-void setupBoard() {
-  for (int i = 0; i < BOARD_SIZE; i++) {
-    for (int j = 0; j < BOARD_SIZE; j++) {
-      board[i][j] = EMPTY;
+void initializeBoard() {
+  for (int row = 0; row < BOARD_SIZE; row++) {
+    for (int col = 0; col < BOARD_SIZE; col++) {
+      gameBoard[row][col] = EMPTY;
     }
   }
-  gameInProgress = true;
-}
-
-boolean isSquareEmpty(int row, int col) {
-  return board[row][col] == EMPTY;
 }
 
 void makeMove(int row, int col, int player) {
