@@ -12,6 +12,15 @@ void draw() {
   drawTicTacToeBoard();
 }
 
+void makeComputerMove() {
+  int emptySquare = -1;
+  while (emptySquare == -1) {
+    int randomIndex = int(random(9));
+    if (board[randomIndex] == ' ') {
+      emptySquare = randomIndex;
+    }
+  }
+
 void keyPressed() {
   // Check if the pressed key is a numeric key between 0 and 8
   int keyIndex = -1;
