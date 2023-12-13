@@ -10,75 +10,93 @@ void setup() {
 void draw() {
   background(255);
   drawTicTacToeBoard();
-}
-
-void makeComputerMove() {
-  int emptySquare = -1;
-  while (emptySquare == -1) {
-    int randomIndex = int(random(9));
-    if (board[randomIndex] == ' ') {
-      emptySquare = randomIndex;
-    }
-  }
-  // Make the computer's move (always X)
-  board[emptySquare] = 'X';
-  isX = false;  // Switch to the player's turn
+   displayBoard();
 }
 
 void keyPressed() {
-  // If the game is not over and the pressed key is a numeric key between 0 and 8, make a move
-  if (!gameOver && key >= '0' && key <= '8') {
-    int keyIndex = int(key - '0');
+  if (key >= '0' && key <= '8') {
+    int cell = int(key) - '0';
+    int row = cell / BOARD_SIZE;
+    int col = cell % BOARD_SIZE;
+    
+    if (board[row][col] == EMPTY) {
+      makeMove(row, col, currentPlayer);
+      switchPlayer();
+      checkGameStatus();
+    } else {
+      println("Cell already occupied. Try again.");
+    }
+  } else {
+    println(INVALID_KEY_MESSAGE);
+  }
+}
 
-    // If the corresponding square is empty, make a move
-    if (board[keyIndex] == ' ') {
-      board[keyIndex] = 'O';
+void drawTicTacToeBoard() {
+  // Draw vertical lines
+  line(CELL_SIZE, 0, CELL_SIZE, height);
+  line(2 * CELL_SIZE, 0, 2 * CELL_SIZE, height);
+  
+  // Draw horizontal lines
+  line(0, CELL_SIZE, width, CELL_SIZE);
+  line(0, 2 * CELL_SIZE, width, 2 * CELL_SIZE);
+}
 
-      // Check for a win or a draw
-      if (checkForWin('O')) {
-        drawResult("Player wins!");
-        gameOver = true;
-      } else if (checkForDraw()) {
-        drawResult("It's a draw!");
-        gameOver = true;
-      } else {
-        isX = true;  // Switch to the computer's turn
-        makeComputerMove();
+void displayBoard() {
+  for (int i = 0; i < BOARD_SIZE; i++) {
+    for (int j = 0; j < BOARD_SIZE; j++) {
+      float x = j * CELL_SIZE;
+      float y = i * CELL_SIZE;
+
+      if (board[i][j] == PLAYER_X) {
+        drawX(x, y, CELL_SIZE);
+      } else if (board[i][j] == PLAYER_O) {
+        drawEllipse(x, y, CELL_SIZE);
       }
     }
   }
 }
 
-void drawResult(String result) {
-  textSize(32);
-  fill(0);
-  textAlign(CENTER, CENTER);
-  text(result, width / 2, height / 2);
+void makeMove(int row, int col, int player) {
+  board[row][col] = player;
 }
 
-boolean checkForWin(char player) {
-  // Check rows, columns, and diagonals for a win
-  for (int i = 0; i < 3; i++) {
-    if ((board[i] == player && board[i + 3] == player && board[i + 6] == player) ||
-        (board[i * 3] == player && board[i * 3 + 1] == player && board[i * 3 + 2] == player)) {
-      return true;
-    }
-  }
-
-  if ((board[0] == player && board[4] == player && board[8] == player) ||
-      (board[2] == player && board[4] == player && board[6] == player)) {
-    return true;
-  }
-
-  return false;
+void switchPlayer() {
+  currentPlayer = (currentPlayer == PLAYER_X) ? PLAYER_O : PLAYER_X;
 }
 
-boolean checkForDraw() {
-  // Check if the board is full (draw)
-  for (char cell : board) {
-    if (cell == ' ') {
-      return false;
+void checkGameStatus() {
+  // Check for a win
+  if (checkWin(PLAYER_X)) {
+    print(PLAYER_X_WON_MESSAGE);
+    gameOver();
+  } else if (checkWin(PLAYER_O)) {
+    print(PLAYER_O_WON_MESSAGE);
+    gameOver();
+  } else if (isBoardFull()) {
+    // Check for a draw
+    print(NO_ONE_WON_MESSAGE);
+    gameOver();
+  } else {
+    // Game is still in progress
+    print(GAME_IN_PROGRESS_MESSAGE);
+  }
+  println();  // Move to the next line for clarity
+}
+
+void gameOver() {
+  // Additional game-over logic can be added here if needed
+  println(GAME_OVER_MESSAGE);
+  noLoop();  // Stop the game loop
+}
+
+boolean isBoardFull() {
+  // Check if the board is full (a draw)
+  for (int i = 0; i < BOARD_SIZE; i++) {
+    for (int j = 0; j < BOARD_SIZE; j++) {
+      if (board[i][j] == EMPTY) {
+        return false;  // There's an empty cell
+      }
     }
   }
-  return true;
+  return true;  // The board is full
 }
