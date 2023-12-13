@@ -1,6 +1,6 @@
 void drawBoard() {
-  float cellWidth = width / 3;
-  float cellHeight = height / 3;
+  float cellWidth = width / BOARD_SIZE;
+  float cellHeight = height / BOARD_SIZE;
 
   // Draw the Tic Tac Toe grid
   for (int lineIndex = 1; lineIndex < BOARD_SIZE; lineIndex++) {
@@ -11,8 +11,8 @@ void drawBoard() {
   }
 
   // Draw X and O based on the current state of the game board
-  for (int row = 0; row < 3; row++) {
-    for (int col = 0; col < 3; col++) {
+  for (int row = 0; row < BOARD_SIZE; row++) {
+    for (int col = 0; col < BOARD_SIZE; col++) {
       if (gameBoard[row][col] == 1) {
         // Draw X for computer
         drawX(col * cellWidth, row * cellHeight, cellWidth, cellHeight);

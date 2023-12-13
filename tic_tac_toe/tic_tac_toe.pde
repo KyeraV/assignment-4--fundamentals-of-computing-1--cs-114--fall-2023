@@ -1,9 +1,11 @@
-int[][] gameBoard = new int[3][3];  // 3x3 array representing the Tic Tac Toe board
+int[][] gameBoard;
 boolean gameOver = false;
 
 void setup() {
   size(500, 500);
   print("Welcome to Tic-Tac-Toe!");
+  
+ gameBoard = new int[BOARD_SIZE][BOARD_SIZE];  //Representing the Tic Tac Toe board
 
   // Computer moves first (playing 'X')
   computerMove();
@@ -20,11 +22,11 @@ void draw() {
 void keyPressed() {
   if (!gameOver && key >= '0' && key <= '8') {
     int index = key - '0';
-    int row = index / 3;
-    int col = index % 3;
+    int row = index / BOARD_SIZE;
+    int col = index % BOARD_SIZE;
 
-    if (gameBoard[row][col] == 0) {
-      gameBoard[row][col] = 2; // User's move (circle)
+    if (gameBoard[row][col] == EMPTY) {
+      gameBoard[row][col] = PLAYER_O; // User's move (circle)
       checkGameOver();
       if (!gameOver) {
         computerMove(); // Computer's move (X)
@@ -34,20 +36,20 @@ void keyPressed() {
       print("Invalid move. The square is already taken.\n");
     }
   } else if (!gameOver) {
-    print("Invalid key. Please press a numeric key (0-8).\n");
+    print(INVALID_KEY_MESSAGE + "\n");
   } else {
-    print("The game has ended.");
+    print(GAME_OVER_MESSAGE + "\n");
   }
 }
 
 void mousePressed() {
   if (!gameOver) {
-    int row = floor(mouseX / (width / 3));
-    int col = floor(mouseY / (height / 3));
+    int row = floor(mouseX / CELL_SIZE);
+    int col = floor(mouseY / CELL_SIZE);
 
-    if (gameBoard[row][col] == 0) {
+    if (gameBoard[row][col] == EMPTY) {
       // Player's move
-      gameBoard[row][col] = 2; // 2 represents O (circle)
+      gameBoard[row][col] = PLAYER_O; 
       checkGameOver();
       if (!gameOver) {
         computerMove(); // Computer's move (X)
@@ -59,9 +61,9 @@ void mousePressed() {
 
 void computerMove() {
   int emptyCells = 0;
-  for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
-    for (int colIndex = 0; colIndex < 3; colIndex++) {
-      if (gameBoard[rowIndex][colIndex] == 0) {
+  for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++) {
+    for (int colIndex = 0; colIndex < BOARD_SIZE; colIndex++) {
+      if (gameBoard[rowIndex][colIndex] == EMPTY) {
         emptyCells++;
       }
     }
@@ -69,12 +71,12 @@ void computerMove() {
   if (emptyCells > 0) {
     int randomIndex = int(random(emptyCells));
     emptyCells = 0;
-    for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
-      for (int colIndex = 0; colIndex < 3; colIndex++) {
-        if (gameBoard[rowIndex][colIndex] == 0) {
+    for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++) {
+      for (int colIndex = 0; colIndex < BOARD_SIZE; colIndex++) {
+        if (gameBoard[rowIndex][colIndex] == EMPTY) {
           if (emptyCells == randomIndex) {
             // Computer's move
-            gameBoard[rowIndex][colIndex] = 1; // 1 represents X
+            gameBoard[rowIndex][colIndex] = PLAYER_X;
             return;
           }
           emptyCells++;
@@ -86,29 +88,29 @@ void computerMove() {
 
 void checkGameOver() {
   // Check if the game is over (win or tie)
-  if (checkWinner(gameBoard, 1) || checkWinner(gameBoard, 2) || isBoardFull(gameBoard)) {
+  if (checkWinner(gameBoard, PLAYER_X) || checkWinner(gameBoard, PLAYER_O) || isBoardFull(gameBoard)) {
     gameOver = true;
     
- if (checkWinner(gameBoard, 1)) {
-      print("Computer wins! The game has ended.\n");
-    } else if (checkWinner(gameBoard, 2)) {
-      print("Player wins! The game has ended.\n");
+ if (checkWinner(gameBoard, PLAYER_X)) {
+     print(PLAYER_X_WON_MESSAGE + " " + GAME_OVER_MESSAGE + "\n");
+    } else if (checkWinner(gameBoard, PLAYER_O)) {
+      print(PLAYER_O_WON_MESSAGE + " " + GAME_OVER_MESSAGE + "\n");
     } else {
-      print("It's a draw! No one wins. The game has ended.\n");
+      print(NO_ONE_WON_MESSAGE + " " + GAME_OVER_MESSAGE + "\n");
     }
   }
 }
 
 boolean checkWinner(int[][] board, int player) {
   // Check rows
-  for (int row = 0; row < 3; row++) {
+  for (int row = 0; row < BOARD_SIZE; row++) {
     if (board[row][0] == player && board[row][1] == player && board[row][2] == player) {
       return true;
     }
   }
 
   // Check columns
-  for (int col = 0; col < 3; col++) {
+  for (int col = 0; col < BOARD_SIZE; col++) {
     if (board[0][col] == player && board[1][col] == player && board[2][col] == player) {
       return true;
     }
@@ -128,9 +130,9 @@ boolean checkWinner(int[][] board, int player) {
 
 boolean isBoardFull(int[][] board) {
   // Check for a draw
-  for (int row = 0; row < 3; row++) {
-    for (int col = 0; col < 3; col++) {
-      if (board[row][col] == 0) {
+  for (int row = 0; row < BOARD_SIZE; row++) {
+    for (int col = 0; col < BOARD_SIZE; col++) {
+      if (board[row][col] == EMPTY) {
         return false;
       }
     }
