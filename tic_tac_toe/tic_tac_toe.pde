@@ -88,6 +88,14 @@ void checkGameOver() {
   // Check if the game is over (win or tie)
   if (checkWinner(gameBoard, 1) || checkWinner(gameBoard, 2) || isBoardFull(gameBoard)) {
     gameOver = true;
+    
+ if (checkWinner(gameBoard, 1)) {
+      print("Computer wins! The game has ended.\n");
+    } else if (checkWinner(gameBoard, 2)) {
+      print("Player wins! The game has ended.\n");
+    } else {
+      print("It's a draw! No one wins. The game has ended.\n");
+    }
   }
 }
 

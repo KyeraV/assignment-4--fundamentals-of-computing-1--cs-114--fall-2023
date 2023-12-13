@@ -3,8 +3,6 @@ void drawBoard() {
   float cellHeight = height / 3;
 
   // Draw the Tic Tac Toe grid
-  stroke(0);
-  strokeWeight(2);
   for (int i = 1; i < 3; i++) {
     // Draw horizontal lines
     line(0, i * cellHeight, width, i * cellHeight);
