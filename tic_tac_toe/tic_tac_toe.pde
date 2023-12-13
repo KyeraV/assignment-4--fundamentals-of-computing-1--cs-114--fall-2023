@@ -1,3 +1,4 @@
+int[][] board = new int[BOARD_SIZE][BOARD_SIZE];
 boolean userTurn = true;
 
 void setup() {
