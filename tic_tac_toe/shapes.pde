@@ -1,9 +1,8 @@
-void drawX(float x, float y, float size) {
-  line(x, y, x + size, y + size);
-  line(x + size, y, x, y + size);
+void drawX(float x, float y, float width, float height) {
+  line(x, y, x + width, y + height);
+  line(x, y + height, x + width, y);
 }
 
-// Function to draw ellipse at given position (x, y)
-void drawEllipse(float x, float y, float size) {
-  ellipse(x + size / 2, y + size / 2, size, size);
+void drawO(float x, float y, float width, float height) {
+  ellipse(x + width / 2, y + height / 2, width, height);
 }
