@@ -23,7 +23,11 @@ void draw() {
     } else if (checkForDraw()) {
       drawResult("It's a draw!");
       gameOver = true;
+   } else {
+      print("The game is still in play.");
     }
+  } else {
+    print("The game has ended.");
   }
 }
 
@@ -60,7 +64,11 @@ void keyPressed() {
         isX = true;  // Switch to the computer's turn
         makeComputerMove();
       }
+    } else {
+      print("You pressed an incorrect key. Please choose an empty square (0-8).");
     }
+  } else {
+    print("The game has ended.");
   }
 }
   
@@ -69,31 +77,4 @@ void drawResult(String result) {
   fill(0);
   textAlign(CENTER, CENTER);
   text(result, width / 2, height / 2);
-}
-
-boolean checkForWin(char player) {
-  // Check rows, columns, and diagonals for a win
-  for (int i = 0; i < 3; i++) {
-    if ((board[i] == player && board[i + 3] == player && board[i + 6] == player) ||
-        (board[i * 3] == player && board[i * 3 + 1] == player && board[i * 3 + 2] == player)) {
-      return true;
-    }
-  }
-  
-  if ((board[0] == player && board[4] == player && board[8] == player) ||
-      (board[2] == player && board[4] == player && board[6] == player)) {
-    return true;
-  }
-  
-  return false;
-}
-
-boolean checkForDraw() {
-  // Check if the board is full (draw)
-  for (char cell : board) {
-    if (cell == ' ') {
-      return false;
-    }
-  }
-  return true;
 }
